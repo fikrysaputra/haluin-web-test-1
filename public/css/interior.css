@@ -1,0 +1,219 @@
+.hero-section-desaininterior {
+    background-image: url('/image/interior.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: white;
+    box-sizing: border-box;
+}
+
+.card {
+    width: 70%;
+    height: auto;
+    margin: auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    box-sizing: border-box;
+    /* Menjamin padding tidak menambah ukuran card */
+}
+
+.card-content {
+    display: flex;
+    /* Menggunakan flexbox agar elemen di dalamnya sejajar */
+    justify-content: space-between;
+    /* Memberikan jarak antara elemen kiri dan kanan */
+    align-items: flex-start;
+    /* Menjaga elemen di bagian atas */
+}
+
+.left-content {
+    flex: 1;
+    padding-right: 20px;
+    /* Memberikan jarak antara gambar dan konten kanan */
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    /*border: 2px solid transparent; /* Border default agar tidak ada border saat tidak di-hover */
+    outline: 1px solid #0c2d57;
+    /* Outline default */
+    transition: outline 0.3s ease, border 0.3s ease;
+    /* Menambahkan animasi pada outline */
+}
+
+.card-image:hover {
+    outline: 1px solid #FC6736;
+    /* Outline saat hover */
+    border: 4px solid #0c2d57;
+    /* Border saat hover */
+}
+
+
+.right-content {
+    flex: 1;
+    /* Membuat konten kanan lebih lebar */
+    display: flex;
+    flex-direction: column;
+    /* Menyusun elemen secara vertikal */
+    justify-content: space-between;
+    /* Menyusun konten dari atas */
+    align-items: center;
+    /* Menyusun elemen di kiri */
+    height: 100%;
+    /* Mengisi seluruh tinggi yang tersedia */
+    margin: 0;
+    padding: 10px 0;
+    /* Memberikan sedikit ruang di atas dan bawah */
+}
+
+.konten.show {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+.konten.show .card {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Styling untuk tombol navigasi */
+.konten {
+    display: flex;
+    /* Menggunakan flexbox */
+    flex-direction: column;
+    /* Menyusun elemen secara vertikal */
+    justify-content: center;
+    /* Menyusun tombol di tengah secara vertikal */
+    align-items: center;
+    /* Menyusun tombol di tengah secara horizontal */
+    height: 100vh;
+    /* Mengatur tinggi kontainer agar memenuhi seluruh layar */
+}
+
+.button-container {
+    display: flex;
+    /* Menggunakan flexbox */
+    justify-content: space-beetwen;
+    /* Menyusun tombol di tengah secara horizontal */
+    width: 100%;
+    /* Membuat tombol mengisi seluruh lebar kontainer */
+    padding: 10px 0;
+    /* Memberikan sedikit ruang di atas dan bawah */
+}
+
+.nav-button {
+    background-color: #0c2d57;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: gray;
+}
+
+.btn-custom2:hover {
+    background-color: gray;
+    color: white;
+}
+
+/* Menambahkan ruang antara teks dan panah */
+.nav-button span {
+    margin-left: 5px;
+}
+
+.judul {
+    font-size: 36px;
+    /* Ukuran font lebih besar */
+    font-weight: bold;
+    /* Membuat tulisan lebih tebal */
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    /* Memberikan shadow pada teks */
+    color: white;
+    /* Warna teks */
+}
+
+.btn-custom2 {
+    background-color: #0c2d57;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: auto;
+    /* Mengatur tombol berada di bawah */
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    /* Ubah menjadi inline-flex agar ukuran tombol mengikuti teks */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Menambahkan bayangan pada tombol */
+    width: auto;
+    /* Ukuran tombol mengikuti panjang teks */
+    min-width: 120px;
+    /* Menentukan lebar minimum untuk tombol */
+    word-wrap: break-word;
+    /* Agar teks dapat turun ke bawah jika melebihi lebar */
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 30px;
+    /* Ukuran ikon */
+    cursor: pointer;
+    z-index: 10;
+    /* Pastikan tombol berada di atas konten */
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan pada tombol */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    /* Menambahkan animasi untuk hover */
+}
+
+/* Efek hover */
+.nav-btn:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    /* Bayangan lebih tebal saat hover */
+    background-color: black;
+}
+
+
+/* Tombol navigasi kiri */
+.nav-btn-left {
+    left: 20px;
+    /* Posisi tombol kiri */
+}
+
+/* Tombol navigasi kanan */
+.nav-btn-right {
+    right: 20px;
+    /* Posisi tombol kanan */
+}
