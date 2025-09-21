@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,3 +48,35 @@ Route::get('/struktur-organisasi', function () {
 Route::get('/admin-home', function () {
     return view('admin.home');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('/setup/roles', RoleController::class);
+    Route::get('api/roles', [RoleController::class, 'getRoles'])->name('api.roles');
+    Route::get('/setup/roles/{id}/confirm-delete', [RoleController::class, 'confirmDelete'])->name('roles.confirm-delete');
+    Route::delete('roles/bulk-delete', [RoleController::class, 'bulkDelete'])->name('roles.bulk-delete');
+});
+
+Route::get('/setup/roles', [RoleController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('setup.roles');
+
+Route::get('/buttons/text', function () {
+    return view('buttons-showcase.text');
+})->middleware(['auth'])->name('buttons.text');
+
+Route::get('/buttons/icon', function () {
+    return view('buttons-showcase.icon');
+})->middleware(['auth'])->name('buttons.icon');
+
+Route::get('/buttons/text-icon', function () {
+    return view('buttons-showcase.text-icon');
+})->middleware(['auth'])->name('buttons.text-icon');
+
+require __DIR__ . '/auth.php';
