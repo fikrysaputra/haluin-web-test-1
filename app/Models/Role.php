@@ -16,9 +16,9 @@ class Role extends Model
     //     return $this->hasMany(RoleMenu::class);
     // }
 
-    // public function menus() {
-    //     return $this->belongsToMany(Menu::class, 'role_menus', 'role_id', 'menu_id');
-    // }
+    public function menus() {
+        return $this->belongsToMany(MenuCMS::class, 'role_menu_cms', 'role_id', 'menu_id');
+    }
 
     public function users(): HasMany
     {

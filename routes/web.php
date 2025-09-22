@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuCMSController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -61,11 +62,17 @@ Route::middleware('auth')->group(function () {
     Route::get('api/roles', [RoleController::class, 'getRoles'])->name('api.roles');
     Route::get('/setup/roles/{id}/confirm-delete', [RoleController::class, 'confirmDelete'])->name('roles.confirm-delete');
     Route::delete('roles/bulk-delete', [RoleController::class, 'bulkDelete'])->name('roles.bulk-delete');
+    Route::resource('/setup/menu-cms', MenuCMSController::class);
+    Route::get('api/menu-cms', [MenuCMSController::class, 'getMenuCMS'])->name('api.menu-cms');
 });
 
 Route::get('/setup/roles', [RoleController::class, 'index'])
     ->middleware(['auth'])
     ->name('setup.roles');
+
+Route::get('/setup/menu-cms', [MenuCMSController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('setup.menu-cms');
 
 Route::get('/buttons/text', function () {
     return view('buttons-showcase.text');

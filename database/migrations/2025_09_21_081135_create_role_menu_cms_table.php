@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('role_menu_cms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignId('role_id')->constrained('roles')->onDelete('restrict');
-            $table->string('username')->unique();
-            $table->string('profile_photo_path')->nullable();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_active')->default(0);
-            $table->rememberToken();
+            $table->foreignId('menu_id')->constrained('menu_cms')->onDelete('restrict');
             $table->timestamps();
         });
     }
@@ -36,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('role_menu_cms');
     }
 };

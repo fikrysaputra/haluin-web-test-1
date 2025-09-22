@@ -12,15 +12,9 @@
                 <a href="/setup/roles/create"
                     class="py-3 mb-5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-md border border-transparent bg-orange-500 text-white hover:bg-orange-700">
                     <i class="ti ti-plus"></i>
-                    Tambah
+                    Add New
                 </a>
-                @if (session('status') === 'role-created')
-                <div class="bg-teal-100 border text-sm text-teal-500 rounded-md p-3 mb-3" role="alert">
-                    <span x-data="{ show: true }" x-show="show" x-transition class="font-bold">
-                        {{ __('Role Created Sucessfully.') }}
-                    </span>
-                </div>
-                @elseif (session('status') === 'role-updated')
+                @if (session('status') === 'role-updated')
                 <div class="bg-teal-100 border text-sm text-teal-500 rounded-md p-3 mb-3" role="alert">
                     <span x-data="{ show: true }" x-show="show" x-transition class="font-bold">
                         {{ __('Role Updated Sucessfully.') }}
