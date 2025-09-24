@@ -14,6 +14,10 @@ class MenuCMS extends Model
 
     protected $guarded = ['id'];
 
+    public function roleMenus() {
+        return $this->hasMany(RoleMenuCMS::class, 'menu_id');
+    }
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_menu_cms', 'menu_id', 'role_id');

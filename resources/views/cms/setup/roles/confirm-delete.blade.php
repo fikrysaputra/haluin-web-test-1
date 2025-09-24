@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Delete Roles') }}
+            {{ __('Delete Role') }}
         </h2>
     </x-slot>
 
@@ -22,7 +22,7 @@
                             id="name"
                             name="name"
                             type="text"
-                            class="block w-full bg-gray-400"
+                            class="block w-full"
                             :disabled="true"
                             :value="old('name', $role->name)"
                             autocomplete="name"
@@ -39,7 +39,7 @@
                             id="description"
                             name="description"
                             :disabled="true"
-                            class="block w-full bg-gray-400"
+                            class="block w-full"
                             autocomplete="description"
                         >{{ old('description', $role->description) }}</x-form.textarea>
                         <x-form.error :messages="$errors->get('description')" />

@@ -46,20 +46,21 @@
                             <th>Status</th>
                             <th>Order No</th>
                             <th>Created At</th>
+                            <th>Updated At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
-            {{-- <form id="bulkDeleteForm" method="POST" action="{{ route('menu-cms.bulk-delete') }}" style="display: none;">
+            <form id="bulkDeleteForm" method="POST" action="{{ route('menu-cms.bulk-delete') }}" style="display: none;">
                 @csrf
                 @method('DELETE')
                 <input type="hidden" name="ids" id="bulkDeleteIds">
                 <button type="submit" class="py-2 px-4 mt-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-md border border-transparent bg-red-500 text-white hover:bg-red-600">
-                    Delete Selected
+                    <i class="ti ti-trash"></i>Delete Selected
                 </button>
-            </form>             --}}
+            </form>            
         </div>
     </div>
 
@@ -77,7 +78,7 @@
                         orderable: false,
                         searchable: false,
                         render: function (data, type, row, meta) {
-                            return '<input type="checkbox" class="menu-checkbox" value="' + row.id + '">';
+                            return '<input type="checkbox" class="menu-cms-checkbox" value="' + row.id + '">';
                         }
                     },
                     { data: null, name: 'no', orderable: false, searchable: false, render: function (data, type, row, meta) {
@@ -89,6 +90,7 @@
                     { data: 'status', name: 'status' },
                     { data: 'orderno', name: 'orderno' },
                     { data: 'created_at', name: 'created_at' },
+                    { data: 'updated_at', name: 'updated_at' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });

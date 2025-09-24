@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('roles/bulk-delete', [RoleController::class, 'bulkDelete'])->name('roles.bulk-delete');
     Route::resource('/setup/menu-cms', MenuCMSController::class);
     Route::get('api/menu-cms', [MenuCMSController::class, 'getMenuCMS'])->name('api.menu-cms');
+    Route::get('/setup/menu-cms/{id}/confirm-delete', [MenuCMSController::class, 'confirmDelete'])->name('menu-cms.confirm-delete');
+    Route::delete('menu-cms/bulk-delete', [MenuCMSController::class, 'bulkDelete'])->name('menu-cms.bulk-delete');
 });
 
 Route::get('/setup/roles', [RoleController::class, 'index'])

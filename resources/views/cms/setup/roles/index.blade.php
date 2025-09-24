@@ -56,7 +56,7 @@
                 @method('DELETE')
                 <input type="hidden" name="ids" id="bulkDeleteIds">
                 <button type="submit" class="py-2 px-4 mt-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-md border border-transparent bg-red-500 text-white hover:bg-red-600">
-                    Delete Selected
+                    <i class="ti ti-trash"></i>Delete Selected
                 </button>
             </form>                
         </div>

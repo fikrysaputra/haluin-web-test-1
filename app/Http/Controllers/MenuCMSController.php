@@ -76,4 +76,100 @@ class MenuCMSController extends Controller
 
         return Redirect::route('setup.menu-cms')->with('success', 'Menu created successfully');
     }
+
+    public function edit(MenuCMS $menuCm)
+    {
+        return view('cms.setup.menu-cms.edit', [
+            'title' => 'Edit Menu CMS',
+            'menu' => $menuCm,
+            'menu_induk' => MenuCMS::where('main_id','0')->get()
+        ]);
+    }
+
+    public function update(Request $request, MenuCMS $menuCm)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required'],
+            'orderno' => ['required', 'numeric'],
+            'main_id' => ['required'],
+            'published' => ['required']
+        ]);
+
+        $menuCm->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'orderno' => $request->orderno,
+            'main_id' => $request->main_id,
+            'link' => $request->link,
+            'icon' => $request->icon,
+            'published' => $request->published
+        ]);
+
+        return redirect()->route('setup.menu-cms')->with('success', 'Menu updated successfully');
+    }
+
+    public function confirmDelete($id)
+    {
+        $menu = MenuCMS::findOrFail($id); // Temukan data berdasarkan ID
+        return view('cms.setup.menu-cms.confirm-delete',[
+            'title' => 'Delete Menu CMS',
+            'menu' => $menu,
+            'menu_induk' => MenuCMS::where('main_id','0')->get()
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $menu = MenuCMS::findOrFail($id);
+
+        if ($menu->roleMenus()->exists()) {
+        // Jika ada, kembalikan ke halaman sebelumnya dengan pesan error
+        return redirect()->route('setup.menu-cms')
+                        ->with('error', 'Failed to delete! This menu is still in use.');
+        }
+
+        $menu->delete(); // Hapus data
+
+        return redirect()->route('setup.menu-cms')->with('success', 'Menu deleted successfully.');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $menuIds = explode(',', $request->input('ids'));
+
+        $deletedCount = 0;
+        $failedMenus = [];
+
+        // Lakukan iterasi untuk setiap ID
+        foreach ($menuIds as $id) {
+            $menu = MenuCMS::find($id); // Gunakan find() agar tidak error jika ID tidak valid
+
+            if ($menu) {
+                // Cek apakah menu masih digunakan
+                if ($menu->roleMenus()->exists()) {
+                    // Jika ya, tambahkan nama menu ke array gagal
+                    $failedMenus[] = $menu->name; // Asumsi ada kolom 'name' di tabel menu
+                } else {
+                    // Jika tidak, hapus menu tersebut
+                    $menu->delete();
+                    $deletedCount++;
+                }
+            }
+        }
+
+        // Siapkan pesan untuk ditampilkan ke user
+        $messages = [];
+        if ($deletedCount > 0) {
+            $messages['success'] = "Berhasil menghapus {$deletedCount} menu.";
+        }
+
+        if (!empty($failedMenus)) {
+            $menuNames = implode(', ', $failedMenus);
+            $messages['error'] = "Gagal menghapus menu berikut karena masih digunakan: {$menuNames}.";
+        }
+
+        // Redirect kembali dengan pesan yang sesuai
+        return redirect()->route('setup.menu-cms')->with($messages);
+    }
 }

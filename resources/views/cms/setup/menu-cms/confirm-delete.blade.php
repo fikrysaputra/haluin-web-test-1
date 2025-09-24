@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create Menu CMS') }}
+            {{ __('Delete Menu CMS') }}
         </h2>
     </x-slot>
 
@@ -9,25 +9,38 @@
         <div class="card-body">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="/setup/menu-cms" class="flex flex-col gap-6">
+                    <form method="POST" action="{{ route('menu-cms.destroy', $menu->id) }}" class="flex flex-col gap-6">
+                        @method('DELETE')
                         @csrf
                         <div>
                             <x-form.label for="main_id" :value="__('Menu Type')" class="mb-2" />
                             <x-form.select 
                                 name="main_id" 
                                 id="main_id"
-                                :selected="old('main_id')"
+                                :value="old('main_id', $menu->main_id)"
                                 emptyText="Choose Menu Type"
                                 withicon="true"
+                                disabled="true"
                                 class="border-orange-200 focus:border-orange-500"
                             >
                                 <x-slot name="icon">
                                     <i class="ti ti-menu-2 text-orange-400"></i>
                                 </x-slot>
-                                <option value="0">Main Menu</option>
-                                <option value="1">Submenu</option>
+
+                                @php
+                                    $currentValue = old('main_id', $menu->main_id);
+                                @endphp
+                                <option value="0" {{ $currentValue == 0 ? 'selected' : '' }}>
+                                    Main Menu
+                                </option>
+                                <option value="1" {{ $currentValue == 1 ? 'selected' : '' }}>
+                                    Submenu
+                                </option>
+
                                 @foreach($menu_induk as $mi)
-                                    <option value="{{ $mi->id }}">{{ $mi->name }} [Main Menu]</option>
+                                    <option value="{{ $mi->id }}" {{ $currentValue == $mi->id ? 'selected' : '' }}>
+                                        {{ $mi->name }} [Main Menu]
+                                    </option>
                                 @endforeach
                             </x-form.select>
                             <x-form.error :messages="$errors->get('main_id')" />
@@ -43,9 +56,10 @@
                                 name="name"
                                 type="text"
                                 class="block w-full"
-                                :value="old('name')"
+                                :value="old('name', $menu->name)"
                                 required
                                 autofocus
+                                :disabled="true"
                                 autocomplete="name"
                             />
                             <x-form.error :messages="$errors->get('name')" />
@@ -60,11 +74,10 @@
                                 id="description"
                                 name="description"
                                 class="block w-full"
-                                :value="old('description')"
                                 required
-                                autofocus
+                                :disabled="true"
                                 autocomplete="description"
-                            >{{ old('description') }}</x-form.textarea>
+                            >{{ old('description', $menu->description) }}</x-form.textarea>
                             <x-form.error :messages="$errors->get('description')" />
                         </div>
                         <div>
@@ -78,8 +91,9 @@
                                 name="orderno"
                                 type="number"
                                 class="block w-full"
-                                :value="old('orderno')"
+                                :value="old('orderno', $menu->orderno)"
                                 required
+                                :disabled="true"
                                 autocomplete="orderno"
                             />
                             <x-form.error :messages="$errors->get('orderno')" />
@@ -95,8 +109,9 @@
                                 name="link"
                                 type="text"
                                 class="block w-full"
-                                :value="old('link')"
+                                :value="old('link', $menu->link)"
                                 required
+                                :disabled="true"
                                 autocomplete="link"
                             />
                             <x-form.error :messages="$errors->get('link')" />
@@ -112,23 +127,35 @@
                                 name="icon"
                                 type="text"
                                 class="block w-full"
-                                :value="old('icon')"
+                                :value="old('icon', $menu->icon)"
+                                :disabled="true"
                                 autocomplete="icon"
                             />
                             <x-form.error :messages="$errors->get('icon')" />
                         </div>
                         <div>
-                            <x-form.select name="published" id="published" emptyText="Choose Menu Status">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                            <x-form.label for="published" :value="__('Menu Status')" class="mb-2" />
+                            <x-form.select 
+                                name="published" 
+                                id="published" 
+                                :value="$menu->published"
+                                disabled="true"
+                                emptyText="Choose Menu Status"
+                            >
+                                <option value="1" {{ old('published', $menu->published) == 1 ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option value="0" {{ old('published', $menu->published) == 0 ? 'selected' : '' }}>
+                                    Inactive
+                                </option>
                             </x-form.select>
                             <x-form.error :messages="$errors->get('published')" />
                         </div>
                         <div class="flex justify-start gap-4">
-                            <x-button>
-                                {{ __('Submit') }}
+                            <x-button variant="danger">
+                                {{ __('Delete') }}
                             </x-button>
-                            <x-button variant="secondary" href="/setup/menu-cms">
+                            <x-button variant="secondary"  href="/setup/menu-cms">
                                 {{ __('Cancel') }}
                             </x-button>
                         </div>

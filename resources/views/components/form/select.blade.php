@@ -5,11 +5,16 @@
     'options' => [],
     'selected' => null,
     'emptyOption' => true,
-    'emptyText' => 'Pilih...'
+    'emptyText' => 'Pilih...',
+    'value' => null // Tambahkan prop value
 ])
 
 @php
     $withiconClasses = $withicon ? 'pl-11 pr-10' : 'px-4 pr-10';
+    
+    // Logic untuk menentukan selected value
+    // Priority: old() input > value prop > selected prop
+    $selectedValue = old($attributes->get('name')) ?? $value ?? $selected;
 @endphp
 
 <div class="relative">
@@ -29,16 +34,17 @@
         !!}
     >
         @if($emptyOption)
-            <option value="" disabled {{ !$selected ? 'selected' : '' }}>
+            <option value="" disabled {{ !$selectedValue ? 'selected' : '' }}>
                 {{ $emptyText }}
             </option>
         @endif
         
         @if(isset($slot) && $slot->isNotEmpty())
+            @php($__selectedValue = $selectedValue)
             {{ $slot }}
         @else
-            @foreach($options as $value => $label)
-                <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }}>
+            @foreach($options as $optionValue => $label)
+                <option value="{{ $optionValue }}" {{ $selectedValue == $optionValue ? 'selected' : '' }}>
                     {{ $label }}
                 </option>
             @endforeach
