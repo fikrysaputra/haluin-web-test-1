@@ -45,8 +45,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dashboard',
             'description' => 'Halaman Dashboard dari Home',
             'orderno' => 1,
-            'link' => '/dashboard',
-            'icon' => '<x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />',
+            'link' => 'dashboard',
+            'icon' => 'ti ti-dashboard',
             'published' => '1',
         ]);
         MenuCMS::create([
@@ -54,6 +54,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Setup Utilities',
             'description' => 'Halaman Induk Setup Utilities',
             'orderno' => 2,
+            'link' => 'setup',
+            'icon' => 'ti ti-key',
             'published' => '1',
         ]);
         MenuCMS::create([
@@ -61,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Setup Roles',
             'description' => 'Halaman Setup Roles dari Setup Utilities',
             'orderno' => 1,
-            'link' => '/setup/roles',
+            'link' => 'setup.roles',
             'icon' => 'ti ti-key',
             'published' => '1',
         ]);
@@ -70,8 +72,26 @@ class DatabaseSeeder extends Seeder
             'name' => 'Setup Menu CMS',
             'description' => 'Halaman Setup Menu dari Setup Utilities',
             'orderno' => 2,
-            'link' => '/setup/menu-cms',
+            'link' => 'setup.menu-cms',
             'icon' => 'ti ti-menu',
+            'published' => '1',
+        ]);
+        MenuCMS::create([
+            'main_id' => 2,
+            'name' => 'Setup Role Menu CMS',
+            'description' => 'Halaman Setup Role Menu dari Setup Utilities',
+            'orderno' => 2,
+            'link' => 'setup.rolemenus',
+            'icon' => 'ti ti-menu',
+            'published' => '1',
+        ]);
+        MenuCMS::create([
+            'main_id' => 2,
+            'name' => 'Setup User CMS',
+            'description' => 'Halaman Setup User dari Setup Utilities',
+            'orderno' => 2,
+            'link' => 'setup.user-cms',
+            'icon' => 'ti ti-user',
             'published' => '1',
         ]);
 
@@ -90,6 +110,14 @@ class DatabaseSeeder extends Seeder
         RoleMenuCMS::create([
             'role_id' => '1',
             'menu_id' => '4'
+        ]);
+        RoleMenuCMS::create([
+            'role_id' => '1',
+            'menu_id' => '5'
+        ]);
+        RoleMenuCMS::create([
+            'role_id' => '1',
+            'menu_id' => '6'
         ]);
     }
 }

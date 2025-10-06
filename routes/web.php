@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuCMSController;
+use App\Http\Controllers\UserCMSController;
 use App\Models\RoleMenuCMS;
 
 /*
@@ -70,6 +71,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('menu-cms/bulk-delete', [MenuCMSController::class, 'bulkDelete'])->name('menu-cms.bulk-delete');
     Route::get('api/rolemenus', [RoleMenuCMSController::class, 'getRoleMenus'])->name('api.rolemenus');
     Route::resource('/setup/rolemenus', RoleMenuCMSController::class);
+    Route::get('api/user-cms', [UserCMSController::class, 'getUserCMS'])->name('api.user-cms');
+    Route::get('/setup/user-cms/{id}/confirm-delete', [UserCMSController::class, 'confirmDelete'])->name('user-cms.confirm-delete');
+    Route::delete('user-cms/bulk-delete', [UserCMSController::class, 'bulkDelete'])->name('user-cms.bulk-delete');
+    Route::resource('/setup/user-cms', UserCMSController::class);
 });
 
 Route::get('/setup/roles', [RoleController::class, 'index'])
@@ -79,10 +84,14 @@ Route::get('/setup/roles', [RoleController::class, 'index'])
 Route::get('/setup/menu-cms', [MenuCMSController::class, 'index'])
     ->middleware(['auth'])
     ->name('setup.menu-cms');
-
+    
 Route::get('/setup/rolemenus', [RoleMenuCMSController::class, 'index'])
     ->middleware(['auth'])
     ->name('setup.rolemenus');
+
+Route::get('/setup/user-cms', [UserCMSController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('setup.user-cms');
 
 Route::get('/buttons/text', function () {
     return view('buttons-showcase.text');
