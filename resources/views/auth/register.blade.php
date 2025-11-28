@@ -7,6 +7,7 @@
             @csrf
 
             <div class="grid gap-6">
+
                 <!-- Name -->
                 <div class="space-y-2">
                     <x-form.label
@@ -29,6 +30,31 @@
                             required
                             autofocus
                             placeholder="{{ __('Name') }}"
+                        />
+                    </x-form.input-with-icon-wrapper>
+                </div>
+
+                <!-- Username -->
+                <div class="space-y-2">
+                    <x-form.label
+                        for="username"
+                        :value="__('Username')"
+                    />
+
+                    <x-form.input-with-icon-wrapper>
+                        <x-slot name="icon">
+                            <x-heroicon-o-user-circle aria-hidden="true" class="w-5 h-5" />
+                        </x-slot>
+
+                        <x-form.input
+                            withicon
+                            id="username"
+                            class="block w-full"
+                            type="text"
+                            name="username"
+                            :value="old('username')"
+                            required
+                            placeholder="{{ __('Username') }}"
                         />
                     </x-form.input-with-icon-wrapper>
                 </div>
@@ -57,6 +83,42 @@
                         />
                     </x-form.input-with-icon-wrapper>
                 </div>
+                
+                <!-- Gender -->
+                <div class="space-y-2">
+                    <x-form.label for="gender" :value="__('Gender')" />
+
+                    <div class="flex gap-6 mt-1">
+                        <label class="inline-flex items-center">
+                            <input 
+                                type="radio" 
+                                class="form-radio text-blue-600" 
+                                name="gender" 
+                                value="male" 
+                                required
+                                {{ old('gender') == 'male' ? 'checked' : '' }}
+                            >
+                            <span class="ml-2">Laki-laki</span>
+                        </label>
+
+                        <label class="inline-flex items-center">
+                            <input 
+                                type="radio" 
+                                class="form-radio text-pink-600" 
+                                name="gender" 
+                                value="female" 
+                                required
+                                {{ old('gender') == 'female' ? 'checked' : '' }}
+                            >
+                            <span class="ml-2">Perempuan</span>
+                        </label>
+                    </div>
+
+                    @error('gender')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
 
                 <!-- Password -->
                 <div class="space-y-2">
@@ -110,7 +172,6 @@
                 <div>
                     <x-button class="justify-center w-full gap-2">
                         <x-heroicon-o-user-add class="w-6 h-6" aria-hidden="true" />
-
                         <span>{{ __('Register') }}</span>
                     </x-button>
                 </div>
@@ -121,6 +182,7 @@
                         {{ __('Login') }}
                     </a>
                 </p>
+
             </div>
         </form>
     </x-auth-card>

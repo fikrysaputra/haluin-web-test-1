@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'profile_photo',
         'password',
+        'gender',
         'is_active',
     ];
 
@@ -46,9 +47,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function role(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
+    public function userTickets()
+    {
+        return $this->hasMany(UserTicket::class);
+    }
+
 }

@@ -35,7 +35,7 @@
 </head>
 
 <body class="font-poppins bg-white text-black">
-  <!-- Header -->
+<!-- Header -->
 <header class="sticky top-0 z-50 bg-white shadow-sm border-l border-r border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
@@ -57,13 +57,77 @@
             <a href="/desain-interior" class="block px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition no-underline">Desain Interior & Arsitektur</a>
             <a href="/teknologi-digital" class="block px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition no-underline">Digital Teknologi</a>
             <a href="/desain-grafis" class="block px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition no-underline">Desain Grafis</a>
-            <a href="/digital-teknologi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition no-underline">Digital Teknologi</a>
+            <a href="/event-menarik" class="block px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition no-underline">Event/Acara</a>
           </div>
         </div>
 
         <a href="/katalog" class="text-black no-underline hover:text-peach transition">Galeri</a>
         <a href="/tentang-kami" class="text-black no-underline hover:text-peach transition">Tentang Kami</a>
         <a href="#contact" class="text-black no-underline hover:text-peach transition">Kontak</a>
+        @auth
+          <div class="relative inline-block text-left">
+              <!-- Tombol utama -->
+              <button id="userDropdownButton" 
+                  class="flex items-center gap-2 bg-background px-4 py-2 rounded-md">
+                  
+                  <!-- Icon Avatar -->
+                  <div class="w-8 h-8 bg-[#FC6736] rounded-md flex items-center justify-center">
+                      <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                      </svg>
+                  </div>
+
+                  <!-- Nama User -->
+                  <span class="text-secondary font-medium">{{ Auth::user()->name ?? 'User' }}</span>
+
+                  <!-- Panah Dropdown -->
+                  <svg id="dropdownArrow" class="w-4 h-4 text-secondary transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2"
+                      viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div id="userDropdownMenu" 
+                  class="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 hidden z-50">
+                  <a href="/dashboard"
+                    class="block px-4 py-2 text-sm no-underline text-gray-700 hover:bg-peach hover:text-white transition rounded-md">
+                    Dashboard
+                  </a>
+                  <form action="/logout" method="POST">
+                      @csrf
+                      <button type="submit"
+                          class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-peach hover:text-white transition rounded-md">
+                          Keluar Akun
+                      </button>
+                  </form>
+              </div>
+          </div>
+
+          <script>
+              const userButton = document.getElementById('userDropdownButton');
+              const userMenu = document.getElementById('userDropdownMenu');
+              const arrow = document.getElementById('dropdownArrow');
+
+              userButton.addEventListener('click', () => {
+                  userMenu.classList.toggle('hidden');
+                  arrow.classList.toggle('rotate-180');
+              });
+
+              // Tutup dropdown jika klik di luar
+              document.addEventListener('click', (e) => {
+                  if (!userButton.contains(e.target) && !userMenu.contains(e.target)) {
+                      userMenu.classList.add('hidden');
+                      arrow.classList.remove('rotate-180');
+                  }
+              });
+          </script>
+
+        @else
+            <a href="/login" class="text-black no-underline hover:text-peach transition font-bold">
+                Login
+            </a>
+        @endauth
       </div>
 
       <!-- Mobile Menu Button -->
@@ -86,9 +150,12 @@
 
 
   <!-- Preloader -->
-  <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-50 transition-opacity duration-500">
-    <img src="{{ asset('image/preloader.png') }}" alt="Loading" class="w-16 h-16 animate-pulse preloader-image" />
-  </div>
+  @if(!Auth::check())
+      <script>
+          document.getElementById('preloader').style.display = 'none';
+      </script>
+  @endif
+
 
   <!-- Scripts -->
   <script>
@@ -117,14 +184,15 @@
 
   @push('scripts')
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const preloader = document.getElementById('preloader');
-      if (preloader) {
-        preloader.style.opacity = '0';
+    window.addEventListener("load", function() {
+        const loader = document.getElementById("preloader");
+
+        loader.classList.add("opacity-0");
+        loader.classList.add("pointer-events-none");
+
         setTimeout(() => {
-          preloader.style.display = 'none';
-        }, 500);
-      }
+            loader.style.display = "none";
+        }, 500); // transisi 0.5 detik
     });
   </script>
   @endpush

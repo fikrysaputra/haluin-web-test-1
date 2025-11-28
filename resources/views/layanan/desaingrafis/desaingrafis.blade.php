@@ -88,63 +88,145 @@
     .service-card {
         transition: all 0.3s ease;
     }
+
+        body {
+        font-family: 'Inter', sans-serif;
+    }
+    .gradient-text {
+        background: linear-gradient(135deg, #FC6736 0%, #0c2d57 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.3;
+        animation: shape-move 10s ease-in-out infinite;
+    }
+    @keyframes shape-move {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -30px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
 </style>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    primary: '#FC6736',
+                    secondary: '#0c2d57',
+                    background: '#FAF6F2'
+                }
+            }
+        }
+    }
+</script>
 
 <body>
     @include('header')
 
-<!-- Hero -->
-<section class="min-h-[70vh] flex items-center justify-center relative bg-white">
-  <div class="w-full max-w-6xl mx-auto px-4 py-20 relative z-10 text-center">
-    
-    <!-- Corner decorations -->
-    <div class="absolute top-10 left-10">
-      <div class="w-20 h-20 relative">
-        <div class="absolute top-0 left-0 w-2 h-10 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-        <div class="absolute top-0 left-0 w-10 h-2 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-      </div>
-    </div>
-    <div class="absolute top-10 right-10">
-      <div class="w-20 h-20 relative">
-        <div class="absolute top-0 right-0 w-2 h-10 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-        <div class="absolute top-0 right-0 w-10 h-2 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-      </div>
-    </div>
-    <div class="absolute bottom-10 left-10">
-      <div class="w-20 h-20 relative">
-        <div class="absolute bottom-0 left-0 w-2 h-10 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-10 h-2 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-      </div>
-    </div>
-    <div class="absolute bottom-10 right-10">
-      <div class="w-20 h-20 relative">
-        <div class="absolute bottom-0 right-0 w-2 h-10 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-        <div class="absolute bottom-0 right-0 w-10 h-2 bg-hero-accent bg-opacity-20 anim-pulse"></div>
-      </div>
-    </div>
-
-    <!-- Center content -->
-    <div class="relative anim-float">
-      <!-- Image -->
-      <h1 class="text-6xl md:text-7xl font-bold tracking-wider text-hero-accent mb-4 anim-fade-in"><img src="{{ asset('image/wordmarklogo.png') }}" alt="Desain Grafis" class="mx-auto mb-8 w-auto h-40 md:w-52 anim-fade-in" /></h1>
-      <!-- Line -->
-      <div class="flex justify-center items-center w-full mb-6 anim-fade-in delay-200">
-        <div class="h-px w-16 bg-hero-accent bg-opacity-30"></div>
-        <div class="h-1 w-24 bg-hero-accent mx-4 rounded-full"></div>
-        <div class="h-px w-16 bg-hero-accent bg-opacity-30"></div>
-      </div>
-
-      <!-- Subtitle changed -->
-      <p class="text-xl md:text-2xl text-gray-700 mb-8 font-light anim-fade-in delay-400">Desain Grafis</p>
-    </div>
-
-    <div class="flex justify-center">
-      <button class="bg-hero-accent text-white font-medium py-3 px-8 rounded-[5px] transition duration-300 transform hover:scale-105 hover:bg-white hover:text-black hover:shadow-lg hover:-translate-y-1 anim-fade-in delay-600">
-        Jelajahi
-      </button>
-    </div>
-  </div>
-</section>
+    <!-- Hero -->
+    <section class="relative bg-[#FAF6F2] h-[70vh] flex items-center overflow-hidden">
+        <!-- Decorative Shapes Background -->  
+        <div class="container mx-auto px-6 py-20 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                
+                <!-- Left Content -->
+                <div class="lg:w-1/2 text-left">
+                    
+                    <!-- Main Heading -->
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-[#0c2d57] leading-tight mb-6">
+                        Wujudkan Desain
+                        <span class="gradient-text block">Impianmu!</span>
+                    </h1>
+                    
+                    <!-- Subheading -->
+                    <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-xl">
+                        Kami mengubah ide kreatifmu menjadi karya visual yang profesional
+                    </p>
+                    
+                    <!-- Features List -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-[#FC6736] bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#FC6736]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-[#0c2d57] font-medium">Logo & Branding</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-[#FC6736] bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#FC6736]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-[#0c2d57] font-medium">Social Media Design</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-[#FC6736] bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#FC6736]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-[#0c2d57] font-medium">UI/UX Design</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-[#FC6736] bg-opacity-10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#FC6736]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-[#0c2d57] font-medium">Print Design</span>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-[#0c2d57] border-2 border-[#0c2d57] px-4 py-2 rounded-2xl font-bold text-lg hover:bg-[#0c2d57] hover:text-white transition shadow-lg">
+                            Lihat Portfolio
+                        </button>
+                    </div>
+                    
+                </div>
+                
+                <!-- Right Content - Visual -->
+                <div class="lg:w-1/2 relative">
+                    <div class="relative floating-animation">
+                        <!-- Main Image Container -->
+                        <div class="relative bg-white rounded-lg shadow-xl p-8">
+                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800" 
+                                 alt="Design Workspace" 
+                                 class="w-full rounded-lg shadow-lg">
+                        </div>
+                        
+                        <!-- Color Palette Decoration -->
+                        <div class="absolute top-1/2 -right-8 bg-white rounded-2xl shadow-xl p-3 transform translate-y-[-50%]">
+                            <div class="flex flex-col gap-2">
+                                <div class="w-10 h-10 bg-[#FC6736] rounded-lg"></div>
+                                <div class="w-10 h-10 bg-[#0c2d57] rounded-lg"></div>
+                                <div class="w-10 h-10 bg-[#FAF6F2] rounded-lg border-2 border-gray-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
 
 <section>
   <div class="container mx-auto px-4 py-10">
@@ -154,276 +236,94 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Card Template -->
         <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-paint-brush text-white text-2xl"></i>
+            <div class="bg-[#fde8e3] p-6"> 
+                <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
+                <i class="fas fa-paint-brush text-white text-2xl"></i>
+                </div>
             </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
+            <div class="p-6 flex flex-col flex-1 bg-[#fde8e3]">
+                <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
+                <ul class="text-gray-600 space-y-2 mb-6">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Logo utama & variasinya</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Panduan brand (brand guideline)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Kartu nama, kop surat, amplop</span>
+                </li>
+                </ul>
+                <div class="mt-auto">
+                <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
+                    Lihat Detail
+                </button>
+                </div>
             </div>
-        </div>
-        </div>
-        <!-- Card Template -->
-        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-print text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-        <!-- Card Template -->
-        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-laptop-code text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
         </div>
                 <!-- Card Template -->
-                <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-hashtag text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-
-        <!-- Card Template -->
         <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-box-open text-white text-2xl"></i>
+            <div class="bg-[#fde8e3] p-6"> 
+                <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
+                <i class="fas fa-paint-brush text-white text-2xl"></i>
+                </div>
             </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
+            <div class="p-6 flex flex-col flex-1 bg-[#fde8e3]">
+                <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
+                <ul class="text-gray-600 space-y-2 mb-6">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Logo utama & variasinya</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Panduan brand (brand guideline)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Kartu nama, kop surat, amplop</span>
+                </li>
+                </ul>
+                <div class="mt-auto">
+                <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
+                    Lihat Detail
+                </button>
+                </div>
             </div>
-        </div>
         </div>
                 <!-- Card Template -->
-                <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-tshirt text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-                <!-- Card Template -->
-                <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-chart-pie text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-        <!-- Card Template -->
         <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-envelope-open-text text-white text-2xl"></i>
+            <div class="bg-[#fde8e3] p-6"> 
+                <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
+                <i class="fas fa-paint-brush text-white text-2xl"></i>
+                </div>
+            </div>
+            <div class="p-6 flex flex-col flex-1 bg-[#fde8e3]">
+                <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
+                <ul class="text-gray-600 space-y-2 mb-6">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Logo utama & variasinya</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Panduan brand (brand guideline)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Kartu nama, kop surat, amplop</span>
+                </li>
+                </ul>
+                <div class="mt-auto">
+                <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
+                    Lihat Detail
+                </button>
+                </div>
             </div>
         </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-        <!-- Card Template -->
-        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg flex flex-col">
-        <div class="bg-[#fde8e3] p-6"> 
-            <div class="rounded-full bg-[#FC6736] w-16 h-16 flex items-center justify-center mx-auto">
-            <i class="fas fa-book-open text-white text-2xl"></i>
-            </div>
-        </div>
-        <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-[#FC6736] mb-3">Desain Logo & Identitas Brand</h3>
-            <ul class="text-gray-600 space-y-2 mb-6">
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Logo utama & variasinya</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Panduan brand (brand guideline)</span>
-            </li>
-            <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                <span>Kartu nama, kop surat, amplop</span>
-            </li>
-            </ul>
-            <div class="mt-auto">
-            <button class="w-full py-2 bg-[#FC6736] hover:bg-[#e65a2e] text-white rounded-md font-medium transition duration-300">
-                Lihat Detail
-            </button>
-            </div>
-        </div>
-        </div>
-    </div>
   </div>
 </section>
 

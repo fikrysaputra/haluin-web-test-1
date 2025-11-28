@@ -60,13 +60,17 @@
                 <!-- Page Heading -->
                 <header>
                     <div class="p-4 sm:p-6">
-                        {{ $header }}
+                        @isset($header)
+                            {{ $header }}
+                        @endisset
                     </div>
                 </header>
 
                 <!-- Page Content -->
                 <main class="px-4 sm:px-6 flex-1">
-                    {{ $slot }}
+                    @isset($slot)
+                        {{ $slot }}
+                    @endisset
                 </main>
 
                 <!-- Page Footer -->
