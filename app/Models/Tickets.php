@@ -20,9 +20,6 @@ class Tickets extends Model
         return $this->belongsTo(Event::class, 'event_id');
     }
 
-
-
-
     /**
      * RELASI: tiket bisa dibeli banyak user
      */

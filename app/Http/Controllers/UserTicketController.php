@@ -24,7 +24,7 @@ class UserTicketController extends Controller
      */
     public function myTickets()
     {
-        $userTicket = UserTickets::with('ticket.event')  // Pastikan 'ticket' adalah relasi yang benar
+        $userTicket = UserTickets::with('ticket.event') 
             ->where('user_id', Auth::id())
             ->get();
 
@@ -45,66 +45,98 @@ class UserTicketController extends Controller
     }
 
     /**
-     * Proses pembelian tiket langsung (user login)
+     * Proses pembelian tiket langsung oleh user yang sudah login
+     * 
+     * Langkah-langkah utama:
+     * 1. Validasi input user
+     * 2. Cek ketersediaan kuota tiket
+     * 3. Update kuota tiket di database
+     * 4. Simpan data pembelian tiket ke tabel user_tickets
+     * 5. Konfigurasi Midtrans untuk transaksi online
+     * 6. Buat transaksi ke Midtrans dan redirect ke halaman pembayaran
+     * 7. Tangani error bila transaksi gagal
      */
+
     public function store(Request $request)
     {
+        // === (1) VALIDASI INPUT ===
+        // Pastikan pengguna mengirimkan ID tiket yang valid dan jumlah tiket minimal 1
         $request->validate([
-            'ticket_id' => 'required|exists:tickets,id',
-            'quantity' => 'required|integer|min:1'
+            'ticket_id' => 'required|exists:tickets,id',   // tiket harus ada di tabel tickets
+            'quantity' => 'required|integer|min:1'         // jumlah minimal 1 tiket
         ]);
 
+        // === (2) CEK KETERSEDIAAN KUOTA TIKET ===
+        // Ambil data tiket berdasarkan ID
         $ticket = \App\Models\Tickets::findOrFail($request->ticket_id);
 
-        // Check the ticket quantity and adjust if necessary
+        // Jika kuota tiket tidak cukup, batalkan pembelian
         if ($ticket->quota < $request->quantity) {
             return back()->with('error', 'Quota tiket tidak cukup.');
         }
 
-        // Reduce ticket quota
+        // === (3) UPDATE KUOTA TIKET ===
+        // Kurangi jumlah kuota sesuai tiket yang dibeli
         $ticket->quota -= $request->quantity;
-        $ticket->save();
+        $ticket->save(); // simpan perubahan ke database
 
-        // Calculate total price
+        // === (4) HITUNG TOTAL HARGA ===
+        // Total = jumlah tiket × harga per tiket
         $totalPrice = $request->quantity * $ticket->price;
 
-        // Save purchase data in UserTickets
+        // === (5) SIMPAN DATA PEMBELIAN KE DATABASE ===
+        // Simpan detail pembelian ke tabel user_tickets
         $userTicket = \App\Models\UserTickets::create([
-            'user_id' => auth()->id(),
-            'ticket_id' => $ticket->id,
-            'quantity' => $request->quantity,
-            'qr_code' => 'TICKET-' . strtoupper(uniqid() . '-' . time()),
-            'status' => 'active',
-            'purchased_at' => now(),
-            'total_price' => $totalPrice  // Make sure total_price is saved
+            'user_id' => auth()->id(),                            // ID user yang login
+            'ticket_id' => $ticket->id,                           // ID tiket yang dibeli
+            'quantity' => $request->quantity,                     // jumlah tiket
+            'qr_code' => 'TICKET-' . strtoupper(uniqid() . '-' . time()), // kode unik QR
+            'status' => 'active',                                 // status default "active"
+            'purchased_at' => now(),                              // waktu pembelian
+            'total_price' => $totalPrice                          // total harga
         ]);
 
-        // Midtrans Configuration
+        // === (6) KONFIGURASI MIDTRANS ===
+        // Ambil kunci server Midtrans dari file .env
         Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        Config::$isProduction = false; // Set true for production
+        
+        // Gunakan mode sandbox (false = testing, true = produksi)
+        Config::$isProduction = false;
+        
+        // Sanitasi data transaksi untuk keamanan
         Config::$isSanitized = true;
+        
+        // Aktifkan keamanan 3DS untuk kartu kredit
         Config::$is3ds = true;
 
-        // Data for Midtrans transaction
+        // === (7) SIAPKAN DATA TRANSAKSI UNTUK MIDTRANS ===
         $params = [
             'transaction_details' => [
-                'order_id' => 'TICKET-' . strtoupper(uniqid()),
-                'gross_amount' => $totalPrice,  // Ensure gross_amount is a number (totalPrice)
+                'order_id' => 'TICKET-' . strtoupper(uniqid()), // ID unik untuk setiap transaksi
+                'gross_amount' => $totalPrice,                  // total harga transaksi
             ],
             'customer_details' => [
-                'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
+                'first_name' => auth()->user()->name,           // nama pembeli
+                'email' => auth()->user()->email,               // email pembeli
             ]
         ];
 
-        // Create transaction on Midtrans
+        // === (8) KIRIM TRANSAKSI KE MIDTRANS ===
         try {
+            // Buat transaksi Snap dan dapatkan URL pembayaran
             $snapUrl = Snap::createTransaction($params)->redirect_url;
+
+            // Redirect user ke halaman pembayaran Midtrans
             return redirect($snapUrl);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
+            // === (9) TANGANI ERROR ===
+            // Jika terjadi kesalahan (misal koneksi gagal atau key salah),
+            // tampilkan pesan error ke user
             return back()->with('error', 'Terjadi kesalahan saat memproses transaksi: ' . $e->getMessage());
         }
     }
+
 
 
     /**

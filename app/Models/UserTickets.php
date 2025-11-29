@@ -11,7 +11,7 @@ class UserTickets extends Model
 
     protected $fillable = [
         'user_id',
-        'ticket_id',  // Corrected this field to 'ticket_id'
+        'ticket_id',
         'quantity',
         'qr_code',
         'status',
