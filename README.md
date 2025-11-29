@@ -52,6 +52,33 @@
 
 - **Pembelian**
   - Kembali ke dashboard jika berhasil membeli
+ 
+- **Buat Undangan digital dengan Pilihan Paket**
+*Paket Basic — Rp120.000*
+
+Include :
+- 50 auto-generated link undangan
+- 1 halaman undangan digital (scroll one page)
+- Desain Basic
+- Informasi acara (nama mempelai, waktu, lokasi, dll)
+- Peta lokasi Google Maps
+- RSVP (konfirmasi kehadiran)
+- Musik latar (1 lagu pilihan)
+- Galeri foto (maks. 5 foto)
+- Tautan undangan (link pribadi)
+
+*Paket Premium — Rp200.000*
+
+Include :
+- Semua fitur Paket Basic
+- Desain premium
+- Galeri foto & video (maks. 10 foto + 1 video)
+- Buku tamu digital
+- Hitung mundur acara (countdown timer)
+- Statistik kunjungan undangan
+
+note :
+- Penambahan nama tamu undangan dengan harga Rp. 1.000/nama
 
 
 **Belum dicoba**
